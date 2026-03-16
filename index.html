@@ -16,131 +16,47 @@
     <style>
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            text-align: center; 
-            background: #fdfdfd; 
-            margin: 0; 
-            padding: 10px; 
-            color: #333;
-            padding-bottom: 50px;
-            position: relative;
-            min-height: 100vh;
-            box-sizing: border-box;
+            text-align: center; background: #fdfdfd; margin: 0; padding: 10px; color: #333;
+            padding-bottom: 50px; position: relative; min-height: 100vh; box-sizing: border-box;
         }
 
         h1 { font-size: 1.5rem; margin-bottom: 10px; }
 
         .visor { 
-            position: relative; 
-            width: 95%; 
-            max-width: 680px; 
-            aspect-ratio: 2 / 1; 
-            margin: 10px auto; 
-            background: #fff; 
-            border: 2px solid #ddd; 
-            border-radius: 15px; 
-            overflow: hidden; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative; width: 95%; max-width: 680px; aspect-ratio: 2 / 1; 
+            margin: 10px auto; background: #fff; border: 2px solid #ddd; 
+            border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex; justify-content: center; align-items: center;
         }
 
         #mica { 
-            position: absolute; 
-            top: -5%; 
-            left: 10%; 
-            width: 80%; 
-            height: 110%; 
-            z-index: 1; 
-            border-radius: 20px; 
-            transition: background-color 0.3s ease;
+            position: absolute; top: 15%; left: 12%; width: 76%; height: 70%; 
+            z-index: 1; border-radius: 40px; transition: background-color 0.3s ease;
+            mix-blend-mode: multiply; opacity: 1; box-shadow: inset 0 8px 15px rgba(0,0,0,0.1);
         }
 
-        #armazon { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain; 
-            z-index: 2; 
-            pointer-events: none; 
+        #armazon { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; pointer-events: none; }
+
+        #reflejo {
+            position: absolute; top: 15%; left: 12%; width: 76%; height: 70%; 
+            z-index: 3; border-radius: 40px; pointer-events: none;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%);
+            opacity: 0; transition: opacity 0.5s ease;
         }
 
-        .seccion {
-            background: white;
-            max-width: 680px;
-            margin: 15px auto;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #eee;
-        }
+        .seccion { background: white; max-width: 680px; margin: 15px auto; padding: 15px; border-radius: 12px; border: 1px solid #eee; }
+        select { width: 100%; padding: 12px; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 10px; background: #fff; }
+        .boton-mica { width: 55px; height: 55px; border-radius: 50%; border: 3px solid #eee; cursor: pointer; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
+        .boton-mica.seleccionado { transform: scale(1.15); border-color: #007bff; box-shadow: 0 0 10px rgba(0,123,255,0.3); }
+        .mica-boton-container { display: flex; flex-direction: column; align-items: center; margin: 10px; width: 65px; }
+        .mica-label { font-size: 0.8em; margin-top: 8px; font-weight: 600; }
 
-        select {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-            background: #fff;
-        }
-
-        .boton-mica { 
-            width: 55px; 
-            height: 55px; 
-            border-radius: 50%; 
-            border: 3px solid #eee; 
-            cursor: pointer; 
-            transition: all 0.2s ease;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .boton-mica.seleccionado {
-            transform: scale(1.15);
-            border-color: #007bff;
-            box-shadow: 0 0 10px rgba(0,123,255,0.3);
-        }
-
-        .mica-boton-container { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            margin: 10px; 
-            width: 65px; 
-        }
-
-        .mica-label { 
-            font-size: 0.8em; 
-            margin-top: 8px; 
-            font-weight: 600;
-        }
-
-        #btnOscurecer { 
-            width: 95%;
-            max-width: 400px;
-            padding: 18px; 
-            font-size: 1.1em; 
-            font-weight: bold;
-            border-radius: 10px; 
-            cursor: pointer; 
-            border: none;
-            background: #333;
-            color: white;
-            margin: 20px 0;
-        }
-        
+        #btnOscurecer { width: 95%; max-width: 400px; padding: 18px; font-size: 1.1em; font-weight: bold; border-radius: 10px; cursor: pointer; border: none; background: #333; color: white; margin: 20px 0; }
         #btnOscurecer:active { background: #000; transform: translateY(2px); }
-        #btnOscurecer:disabled { background: #ccc; cursor: not-allowed; }
+        #btnOscurecer:disabled { background: #ccc; cursor: not-allowed; opacity: 0.6; }
 
-        .version-tag {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            font-size: 0.75rem;
-            color: #888;
-            background: rgba(255,255,255,0.8);
-            padding: 4px 8px;
-            border-radius: 4px;
-            pointer-events: none;
-        }
+        /* Tag fuera del visor, esquina inferior derecha */
+        .version-tag { position: absolute; bottom: 15px; right: 15px; font-size: 0.75rem; color: #888; background: rgba(255,255,255,0.8); padding: 4px 8px; border-radius: 4px; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -150,6 +66,7 @@
     <div class="visor">
         <div id="mica"></div>
         <img id="armazon" src="" alt="Armazón">
+        <div id="reflejo"></div>
     </div>
 
     <div class="seccion">
@@ -164,78 +81,44 @@
         <button id="btnOscurecer" onclick="oscurecerActual()">Oscurecer</button>
     </div>
 
-    <div class="version-tag">v5.2.0 - Creado por Alei</div>
+    <div class="version-tag">v6.1 - Alei</div>
 
     <script>
+        // Lógica completa de micas, armazones y animación de oscurecimiento v6.0
         const modelos = {
-            abbas: ["chinatown","fargo","persepolis"],
-            agnes: ["chocochip","fargo"],
-            akira: ["guadalajara","habana","sansebastian","venecia"],
-            alfonso: ["tofu"],
-            aldous: ["nogal","grafito","niquel"],
-            angela: ["alpes","pirineo"],
-            artigas: ["laton","mercurio","plomo"],
-            barb: ["bronce"],
-            bernard: ["alpes","apalache","sierra"],
-            bill: ["ballena","grafito"],
-            "bill ventana": ["alcachofa","grafito"],
-            billie: ["medianoche","limalimon","espresso","pitaya","pasita"],
-            clark: ["grafito"],
-            connie: ["volcan"],
-            dafna: ["cedro","olivo","nube","espresso","clavel"],
-            "dafna titan": ["manhattan","collins"],
-            daria: ["onix", "cereza"],
-            desmond: ["caliza","altamar"],
-            dwight: ["tinieblas","octagon","rayo"],
-            esquivel: ["grafito","niquel","chocochip","clavel"],
-            "esquivel titan": ["martini","cosmopolitan"],
-            fran: ["uva","cedro","olivo"],
-            garcia: ["neptuno","grafito","aceituna","estela"],
-            garwin: ["laton", "acero"],
-            glorp: ["sideral"],
-            "glorp antimateria": ["estelar","orbita"],
-            godard: ["habana","hollywood","matinee","paradiso"],
-            guillermo: ["supernova","medianoche","merengue"],
-            jaime: ["onix","piedra"],
-            jocelyn: ["laton", "mercurio"],
-            joyce: ["metamorfosis", "aurora"],
-            laszlo: ["laton", "acero","bronce"],
-            leon: ["grafito","amate","burbuja","aceituna"],
-            leone: ["berlin","cannes","rotterdam"],
-            lina: ["sunset", "manhattan"],
-            linda: ["plomo", "laton"],
-            marcela: ["merengue","caoba"],
-            "marcela reform": ["napolitano", "cacao"],
-            maria: ["bronce", "plomo"],
-            martin: ["onix","espresso","maple","maple burbuja"],
-            max: ["rayo","octagon"],
-            meryl: ["merengue","nogal"],
-            moleman: ["jupiter","sombra","onix","medusa"],
-            molina: ["plomo", "laton"],
-            nadiaiv: ["octagon"],
-            pablo: ["dolores","cleri","olivia"],
-            parks: ["laton","penique","bronce","plomo"],
-            pedro: ["chocochip","las vegas","paris-texas"],
-            proximamente: ["sw"],
-            rivera: ["nogal","onix","aceituna","pasita","daiquiri"],
-            robin: ["laton","acero","plomo","bronce"],
-            "robin caviar": ["osetra","beluga","esturion","caracol"],
-            saramago: ["merengue","nogal"],
-            sergioarmando: ["budapest","ayelen"],
-            testa: ["tortuga","onix","amate"],
-            tina: ["nogal","onix"],
-            truman: ["onix"],
-            vilma: ["rayo"],
-            wong: ["hongkong","fargo"],
-            yuri: ["guayaba","mojito","conga"],
-            lucrecia: ["matcha","nogal","merengue"],
-            yetta: ["brandy","americano","mordisco"],
-            brooks: ["nogal"],
-            penelope: ["nogal"],
-            steven: ["nogal"],
-            coen: ["nogal"],
-            cortazar: ["melancolia","estela"],
-            romero: ["nogal"]
+            abbas: ["chinatown","fargo","persepolis"], agnes: ["chocochip","fargo"],
+            akira: ["guadalajara","habana","sansebastian","venecia"], alfonso: ["tofu"],
+            aldous: ["nogal","grafito","niquel"], angela: ["alpes","pirineo"],
+            artigas: ["laton","mercurio","plomo"], barb: ["bronce"],
+            bernard: ["alpes","apalache","sierra"], bill: ["ballena","grafito"],
+            "bill ventana": ["alcachofa","grafito"], billie: ["medianoche","limalimon","espresso","pitaya","pasita"],
+            clark: ["grafito"], connie: ["volcan"],
+            dafna: ["cedro","olivo","nube","espresso","clavel"], "dafna titan": ["manhattan","collins"],
+            daria: ["onix", "cereza"], desmond: ["caliza","altamar"],
+            dwight: ["tinieblas","octagon","rayo"], esquivel: ["grafito","niquel","chocochip","clavel"],
+            "esquivel titan": ["martini","cosmopolitan"], fran: ["uva","cedro","olivo"],
+            garcia: ["neptuno","grafito","aceituna","estela"], garwin: ["laton", "acero"],
+            glorp: ["sideral"], "glorp antimateria": ["estelar","orbita"],
+            godard: ["habana","hollywood","matinee","paradiso"], guillermo: ["supernova","medianoche","merengue"],
+            jaime: ["onix","piedra"], jocelyn: ["laton", "mercurio"],
+            joyce: ["metamorfosis", "aurora"], laszlo: ["laton", "acero","bronce"],
+            leon: ["grafito","amate","burbuja","aceituna"], leone: ["berlin","cannes","rotterdam"],
+            lina: ["sunset", "manhattan"], linda: ["plomo", "laton"],
+            marcela: ["merengue","caoba"], "marcela reform": ["napolitano", "cacao"],
+            maria: ["bronce", "plomo"], martin: ["onix","espresso","maple","maple burbuja"],
+            max: ["rayo","octagon"], meryl: ["merengue","nogal"],
+            moleman: ["jupiter","sombra","onix","medusa"], molina: ["plomo", "laton"],
+            nadiaiv: ["octagon"], pablo: ["dolores","cleri","olivia"],
+            parks: ["laton","penique","bronce","plomo"], pedro: ["chocochip","las vegas","paris-texas"],
+            proximamente: ["sw"], rivera: ["nogal","onix","aceituna","pasita","daiquiri"],
+            robin: ["laton","acero","plomo","bronce"], "robin caviar": ["osetra","beluga","esturion","caracol"],
+            saramago: ["merengue","nogal"], sergioarmando: ["budapest","ayelen"],
+            testa: ["tortuga","onix","amate"], tina: ["nogal","onix"],
+            truman: ["onix"], vilma: ["rayo"],
+            wong: ["hongkong","fargo"], yuri: ["guayaba","mojito","conga"],
+            lucrecia: ["matcha","nogal","merengue"], yetta: ["brandy","americano","mordisco"],
+            brooks: ["nogal"], penelope: ["nogal"], steven: ["nogal"],
+            coen: ["nogal"], cortazar: ["melancolia","estela"], romero: ["nogal"]
         };
 
         const coloresMica = {
@@ -253,68 +136,35 @@
         let botones = [];
 
         function inicializarMicas() {
-            const botonesContainer = document.getElementById("botonesMica");
+            const container = document.getElementById("botonesMica");
             Object.keys(coloresMica).forEach(nombre => {
-                const cont = document.createElement("div");
-                cont.className = "mica-boton-container";
-                const btn = document.createElement("div");
-                btn.className = "boton-mica";
-                btn.style.backgroundColor = (nombre === "té") ? coloresMica[nombre].fijo : coloresMica[nombre].inicio;
+                const cont = document.createElement("div"); cont.className = "mica-boton-container";
+                const btn = document.createElement("div"); btn.className = "boton-mica";
+                btn.style.backgroundColor = coloresMica[nombre].inicio || coloresMica[nombre].fijo;
                 btn.onclick = () => seleccionarMica(nombre, btn);
                 botones.push(btn);
-                const label = document.createElement("span");
-                label.className = "mica-label";
+                const label = document.createElement("span"); label.className = "mica-label";
                 label.textContent = nombre.charAt(0).toUpperCase() + nombre.slice(1);
-                cont.appendChild(btn);
-                cont.appendChild(label);
-                botonesContainer.appendChild(cont);
+                cont.appendChild(btn); cont.appendChild(label); container.appendChild(cont);
             });
         }
 
-        function inicializarModelos() {
-            const select = document.getElementById("modelo");
-            Object.keys(modelos).sort().forEach(nombre => {
-                const opt = document.createElement("option");
-                opt.value = nombre;
-                let labelText = nombre.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                if (labelText.toLowerCase().includes("nadiaiv")) labelText = "Nadia IV";
-                opt.textContent = labelText;
-                select.appendChild(opt);
-            });
+        function aplicarEfectos(progreso) {
+            const mica = document.getElementById("mica");
+            const reflejo = document.getElementById("reflejo");
+            mica.style.opacity = 1 - (0.18 * progreso);
+            reflejo.style.opacity = (0.65 * progreso);
         }
 
-        function actualizarColores() {
-            const modelo = document.getElementById("modelo").value;
-            const selectColor = document.getElementById("colorArmazon");
-            selectColor.innerHTML = "";
-            (modelos[modelo] || []).sort().forEach(color => {
-                const opt = document.createElement("option");
-                opt.value = color;
-                opt.textContent = color.charAt(0).toUpperCase() + color.slice(1);
-                selectColor.appendChild(opt);
-            });
-            cambiarArmazon();
-        }
-
-        function cambiarArmazon() {
-            const modelo = document.getElementById("modelo").value;
-            const color = document.getElementById("colorArmazon").value;
-            document.getElementById("armazon").src = "img/" + modelo + "-" + color + ".png";
-        }
-
-        function seleccionarMica(nombre, boton) {
+        function seleccionarMica(nombre, btn) {
             micaSeleccionada = nombre;
             if(animacionId) cancelAnimationFrame(animacionId);
-            const micaDiv = document.getElementById("mica");
             botones.forEach(b => b.classList.remove("seleccionado"));
-            boton.classList.add("seleccionado");
-            micaDiv.style.backgroundColor = (nombre === "té") ? coloresMica[nombre].fijo : coloresMica[nombre].inicio;
+            btn.classList.add("seleccionado");
+            const color = coloresMica[nombre].inicio || coloresMica[nombre].fijo;
+            document.getElementById("mica").style.backgroundColor = color;
+            aplicarEfectos(0);
             document.getElementById("btnOscurecer").disabled = (nombre === "té");
-        }
-
-        function hexToRgb(hex) {
-            let r = parseInt(hex.slice(1,3), 16), g = parseInt(hex.slice(3,5), 16), b = parseInt(hex.slice(5,7), 16);
-            return {r, g, b};
         }
 
         function oscurecerActual() {
@@ -323,23 +173,61 @@
             const final = hexToRgb(coloresMica[micaSeleccionada].final);
             const duracion = 1500;
             let start = null;
+
             function step(timestamp) {
                 if (!start) start = timestamp;
                 let progress = (timestamp - start) / duracion;
                 if (progress > 1) progress = 1;
+
                 let r = Math.round(inicio.r + (final.r - inicio.r) * progress);
                 let g = Math.round(inicio.g + (final.g - inicio.g) * progress);
                 let b = Math.round(inicio.b + (final.b - inicio.b) * progress);
+                
                 document.getElementById("mica").style.backgroundColor = `rgb(${r},${g},${b})`;
+                aplicarEfectos(progress);
+
                 if (progress < 1) animacionId = requestAnimationFrame(step);
             }
             if(animacionId) cancelAnimationFrame(animacionId);
             animacionId = requestAnimationFrame(step);
         }
 
+        function hexToRgb(hex) {
+            let r = parseInt(hex.slice(1,3), 16), g = parseInt(hex.slice(3,5), 16), b = parseInt(hex.slice(5,7), 16);
+            return {r, g, b};
+        }
+
+        function inicializarModelos() {
+            const select = document.getElementById("modelo");
+            Object.keys(modelos).sort().forEach(m => {
+                const opt = document.createElement("option"); opt.value = m;
+                let label = m.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                if (label.toLowerCase().includes("nadiaiv")) label = "Nadia IV";
+                opt.textContent = label; select.appendChild(opt);
+            });
+            actualizarColores();
+        }
+
+        function actualizarColores() {
+            const m = document.getElementById("modelo").value;
+            const s = document.getElementById("colorArmazon");
+            s.innerHTML = "";
+            (modelos[m] || []).sort().forEach(c => {
+                const opt = document.createElement("option"); opt.value = c;
+                opt.textContent = c.charAt(0).toUpperCase() + c.slice(1);
+                s.appendChild(opt);
+            });
+            cambiarArmazon();
+        }
+
+        function cambiarArmazon() {
+            const m = document.getElementById("modelo").value;
+            const c = document.getElementById("colorArmazon").value;
+            document.getElementById("armazon").src = "img/" + m + "-" + c + ".png";
+        }
+
         inicializarMicas();
         inicializarModelos();
-        actualizarColores();
         seleccionarMica('celestun', botones[0]);
     </script>
 </body>
