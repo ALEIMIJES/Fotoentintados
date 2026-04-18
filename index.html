@@ -190,7 +190,7 @@
             miramar:   {inicio:"#dfd3e7", final:"#434343"},
             azufre:    {inicio:"#ecdbb0", final:"#783f03"},
             té:        {fijo:"#d0f3e2"},
-            asteroid:  {baseColor:"#F9D29D", shadowColor:"#E65C41"},
+            asteroide:  {baseColor:"#F9D29D", shadowColor:"#E65C41"},
             nebulosa:  {baseColor:"#D6E3F5", shadowColor:"#005B94"},
             estela:    {baseColor:"#dfd3e7", shadowColor:"#6B4F7B"}
         };
@@ -205,12 +205,12 @@
             botones = [];
             const esStarWars = (modeloActual === 'starwars');
             const micasStandard = ['celestun', 'mermejita', 'caleta', 'rosarito', 'miramar', 'azufre', 'té'];
-            const micasStarWars = ['asteroid', 'nebulosa', 'estela'];
+            const micasStarWars = ['asteroide', 'nebulosa', 'estela'];
             micasStandard.forEach(nombre => crearBotonMica(nombre, container));
             if (esStarWars) {
                 const br = document.createElement("div"); br.className = "mica-sw-break"; container.appendChild(br);
                 micasStarWars.forEach(nombre => crearBotonMica(nombre, container));
-                seleccionarMica('asteroid', botones[7]); 
+                seleccionarMica('asteroide', botones[7]); 
             } else { seleccionarMica('celestun', botones[0]); }
         }
 
