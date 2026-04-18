@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fotoentintados - Galaxia Edition</title>
+    <title>Fotoentintados</title>
     
     <link rel="icon" type="image/png" href="img/iconweb.png">
     <link rel="apple-touch-icon" href="img/iconweb.png">
@@ -11,19 +11,36 @@
     <style>
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            text-align: center; background: #fdfdfd; margin: 0; padding: 10px; color: #333;
+            text-align: center; 
+            background-color: #fdfdfd;
+            margin: 0; padding: 10px; color: #333;
             padding-bottom: 50px; position: relative; min-height: 100vh; box-sizing: border-box;
-            transition: background 1.5s ease-in-out, color 0.5s ease;
+            transition: background-color 1.5s ease-in-out, color 0.5s ease;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000 url('img/background-starwars.png') no-repeat center center;
+            background-size: cover;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            pointer-events: none;
         }
 
         body.starwars-background {
-            background: #000 url('img/background-starwars.png') no-repeat center center;
-            background-size: cover;
-            background-attachment: fixed;
+            background-color: #000;
             color: #fff;
         }
 
-        h1 { font-size: 1.5rem; margin-bottom: 10px; }
+        body.starwars-background::before {
+            opacity: 1;
+        }
+
+        h1 { font-size: 1.5rem; margin-bottom: 10px; position: relative; }
 
         .visor { 
             position: relative; width: 95%; max-width: 680px; aspect-ratio: 2 / 1; 
@@ -33,9 +50,10 @@
         }
 
         #mica { 
-            position: absolute; top: 20%; left: 12%; width: 76%; height: 70%; 
+            position: absolute; 
+            top: 21%;
+            left: 12%; width: 76%; height: 70%; 
             z-index: 1; border-radius: 40px; 
-            /* Regresamos a la transición limpia de la v6.4 pero optimizada */
             transition: background-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
             mix-blend-mode: multiply; opacity: 1;
         }
@@ -43,13 +61,17 @@
         #armazon { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; pointer-events: none; }
 
         #reflejo {
-            position: absolute; top: 20%; left: 12%; width: 76%; height: 70%; 
+            position: absolute; top: 21%; left: 12%; width: 76%; height: 70%; 
             z-index: 3; border-radius: 40px; pointer-events: none;
             background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%);
             opacity: 0; transition: opacity 0.5s ease;
         }
 
-        .seccion { background: white; max-width: 680px; margin: 15px auto; padding: 15px; border-radius: 12px; border: 1px solid #eee; transition: all 0.5s ease; }
+        .seccion { 
+            position: relative;
+            background: white; max-width: 680px; margin: 15px auto; padding: 15px; 
+            border-radius: 12px; border: 1px solid #eee; transition: all 0.5s ease; 
+        }
         
         body.starwars-background .seccion {
             background: rgba(255, 255, 255, 0.1);
@@ -111,7 +133,7 @@
         <button id="btnOscurecer" onclick="oscurecerActual()">Oscurecer</button>
     </div>
 
-    <div class="version-tag">v7.0 - Alei - SW Edition</div>
+    <div class="version-tag">V7.1 - Alei - SW Edition</div>
 
     <script>
         const modelos = {
@@ -130,7 +152,8 @@
             clark: ["grafito"],
             connie: ["volcan"],
             dafna: ["cedro","olivo","nube","espresso","clavel"],
-            "dafna titan": ["manhattan","collins"], daria: ["onix", "cereza"],
+            "dafna titan": ["manhattan","collins"], 
+            daria: ["onix", "cereza"],
             desmond: ["caliza","altamar"],
             dwight: ["tinieblas","octagon","rayo"],
             esquivel: ["grafito","niquel","chocochip","clavel"],
@@ -154,14 +177,15 @@
             "marcela reform": ["napolitano", "cacao"],
             maria: ["bronce", "plomo"],
             martin: ["onix","espresso","maple","maple burbuja"],
-            max: ["rayo","octagon"], meryl: ["merengue","nogal"],
+            max: ["rayo","octagon"], 
+            meryl: ["merengue","nogal"],
             moleman: ["jupiter","sombra","onix","medusa"],
             molina: ["plomo", "laton"],
             "nadia IV": ["octagon"],
             pablo: ["dolores","cleri","olivia"],
             parks: ["laton","penique","bronce","plomo"],
             pedro: ["chocochip","las vegas","paris-texas"],
-            starwars: ["han solo","darth vader","chewie","leia","yoda","skywalker","C-3PO","R2-D2","obiwan","NO"], 
+            starwars: ["han solo","darth vader","chewie","leia","yoda","skywalker","C-3PO","R2-D2","obiwan"], 
             rivera: ["nogal","onix","aceituna","pasita","daiquiri","chocochip"],
             robin: ["laton","acero","plomo","bronce"],
             "robin caviar": ["osetra","beluga","esturion","caracol"],
@@ -169,13 +193,15 @@
             sergioarmando: ["budapest","ayelen"],
             testa: ["tortuga","onix","amate"],
             tina: ["nogal","onix"],
-            truman: ["onix"], vilma: ["rayo"],
+            truman: ["onix"], 
+            vilma: ["rayo"],
             wong: ["hongkong","fargo"],
             yuri: ["guayaba","mojito","conga"],
             lucrecia: ["matcha","nogal","merengue"],
             yetta: ["brandy","americano","mordisco"],
             brooks: ["nogal"],
-            penelope: ["nogal"], steven: ["nogal"],
+            penelope: ["nogal"], 
+            steven: ["nogal"],
             coen: ["nogal"],
             cortazar: ["melancolia","estela"],
             romero: ["nogal"],
@@ -206,20 +232,29 @@
             const esStarWars = (modeloActual === 'starwars');
             const micasStandard = ['celestun', 'mermejita', 'caleta', 'rosarito', 'miramar', 'azufre', 'té'];
             const micasStarWars = ['asteroide', 'nebulosa', 'estela'];
+            
             micasStandard.forEach(nombre => crearBotonMica(nombre, container));
+            
             if (esStarWars) {
                 const br = document.createElement("div"); br.className = "mica-sw-break"; container.appendChild(br);
                 micasStarWars.forEach(nombre => crearBotonMica(nombre, container));
                 seleccionarMica('asteroide', botones[7]); 
-            } else { seleccionarMica('celestun', botones[0]); }
+            } else { 
+                seleccionarMica('celestun', botones[0]); 
+            }
         }
 
         function crearBotonMica(nombre, container) {
             const mica = coloresMica[nombre];
             const cont = document.createElement("div"); cont.className = "mica-boton-container";
             const btn = document.createElement("div"); btn.className = "boton-mica";
-            if (mica.baseColor) { btn.style.background = `linear-gradient(180deg, ${mica.shadowColor} 0%, ${mica.baseColor} 100%)`;
-            } else { btn.style.backgroundColor = mica.inicio || mica.fijo; }
+            
+            if (mica.baseColor) { 
+                btn.style.background = `linear-gradient(180deg, ${mica.shadowColor} 0%, ${mica.baseColor} 100%)`;
+            } else { 
+                btn.style.backgroundColor = mica.inicio || mica.fijo; 
+            }
+            
             btn.onclick = () => seleccionarMica(nombre, btn);
             botones.push(btn);
             const label = document.createElement("span"); label.className = "mica-label"; label.textContent = nombre.charAt(0).toUpperCase() + nombre.slice(1);
@@ -230,9 +265,11 @@
             micaSeleccionada = nombre;
             if(animacionId) cancelAnimationFrame(animacionId);
             botones.forEach(b => b.classList.remove("seleccionado"));
-            btn.classList.add("seleccionado");
+            if(btn) btn.classList.add("seleccionado");
+            
             const mica = coloresMica[nombre];
             const micaElement = document.getElementById("mica");
+            
             if (mica.baseColor) {
                 micaElement.style.backgroundColor = mica.baseColor;
                 micaElement.style.boxShadow = `inset 0 100px 100px -50px ${mica.shadowColor}`;
@@ -250,22 +287,19 @@
             if(micaSeleccionada === "té" || coloresMica[micaSeleccionada].baseColor) return;
             const inicio = hexToRgb(coloresMica[micaSeleccionada].inicio);
             const final = hexToRgb(coloresMica[micaSeleccionada].final);
-            const duracion = 800; // Rapidez de la v6.8
+            const duracion = 800; 
             let start = null;
 
             function step(timestamp) {
                 if (!start) start = timestamp;
                 let progress = (timestamp - start) / duracion;
                 if (progress > 1) progress = 1;
-
                 let r = Math.round(inicio.r + (final.r - inicio.r) * progress);
                 let g = Math.round(inicio.g + (final.g - inicio.g) * progress);
                 let b = Math.round(inicio.b + (final.b - inicio.b) * progress);
-                
                 document.getElementById("mica").style.backgroundColor = `rgb(${r},${g},${b})`;
                 document.getElementById("mica").style.opacity = 1 - (0.18 * progress);
                 document.getElementById("reflejo").style.opacity = (0.65 * progress);
-
                 if (progress < 1) animacionId = requestAnimationFrame(step);
             }
             if(animacionId) cancelAnimationFrame(animacionId);
@@ -282,7 +316,7 @@
             Object.keys(modelos).sort().forEach(m => {
                 const opt = document.createElement("option"); opt.value = m;
                 let label = m.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                if (label.toLowerCase().includes("nadiaiv")) label = "Nadia IV";
+                if (label.toLowerCase().includes("nadia iv")) label = "Nadia IV";
                 opt.textContent = label; select.appendChild(opt);
             });
             actualizarColores();
