@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fotoentintados</title>
+    <title>Fotoentintados - Galaxia Edition</title>
     
     <link rel="icon" type="image/png" href="img/iconweb.png">
     <link rel="apple-touch-icon" href="img/iconweb.png">
@@ -18,6 +18,14 @@
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             text-align: center; background: #fdfdfd; margin: 0; padding: 10px; color: #333;
             padding-bottom: 50px; position: relative; min-height: 100vh; box-sizing: border-box;
+            transition: background 1.5s ease-in-out, color 0.5s ease;
+        }
+
+        body.starwars-background {
+            background: #000 url('img/background-starwars.png') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            color: #fff;
         }
 
         h1 { font-size: 1.5rem; margin-bottom: 10px; }
@@ -31,7 +39,7 @@
 
         #mica { 
             position: absolute; top: 15%; left: 12%; width: 76%; height: 70%; 
-            z-index: 1; border-radius: 40px; transition: background-color 0.3s ease;
+            z-index: 1; border-radius: 40px; transition: background 0.3s ease;
             mix-blend-mode: multiply; opacity: 1; box-shadow: inset 0 8px 15px rgba(0,0,0,0.1);
         }
 
@@ -44,22 +52,47 @@
             opacity: 0; transition: opacity 0.5s ease;
         }
 
-        .seccion { background: white; max-width: 680px; margin: 15px auto; padding: 15px; border-radius: 12px; border: 1px solid #eee; }
-        select { width: 100%; padding: 12px; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 10px; background: #fff; }
+        .seccion { background: white; max-width: 680px; margin: 15px auto; padding: 15px; border-radius: 12px; border: 1px solid #eee; transition: all 0.5s ease; }
+        
+        body.starwars-background .seccion {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            backdrop-filter: blur(5px);
+        }
+
+        select { width: 100%; padding: 12px; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 10px; background: #fff; color: #333; }
+        
+        body.starwars-background select {
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border: 1px solid #ffd700; /* Un toque dorado estilo SW */
+        }
+
         .boton-mica { width: 55px; height: 55px; border-radius: 50%; border: 3px solid #eee; cursor: pointer; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
         .boton-mica.seleccionado { transform: scale(1.15); border-color: #007bff; box-shadow: 0 0 10px rgba(0,123,255,0.3); }
+        
+        body.starwars-background .boton-mica.seleccionado { border-color: #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+
         .mica-boton-container { display: flex; flex-direction: column; align-items: center; margin: 10px; width: 65px; }
         .mica-label { font-size: 0.8em; margin-top: 8px; font-weight: 600; }
+        
+        body.starwars-background .mica-label { color: #fff; }
 
-        #btnOscurecer { width: 95%; max-width: 400px; padding: 18px; font-size: 1.1em; font-weight: bold; border-radius: 10px; cursor: pointer; border: none; background: #333; color: white; margin: 20px 0; }
+        .mica-sw-break { flex-basis: 100%; height: 0; margin: 0; }
+
+        #btnOscurecer { width: 95%; max-width: 400px; padding: 18px; font-size: 1.1em; font-weight: bold; border-radius: 10px; cursor: pointer; border: none; background: #333; color: white; margin: 20px 0; transition: background 0.3s; }
         #btnOscurecer:active { background: #000; transform: translateY(2px); }
         #btnOscurecer:disabled { background: #ccc; cursor: not-allowed; opacity: 0.6; }
 
-        /* Tag fuera del visor, esquina inferior derecha */
+        body.starwars-background #btnOscurecer { background: #ffd700; color: #000; }
+
         .version-tag { position: absolute; bottom: 15px; right: 15px; font-size: 0.75rem; color: #888; background: rgba(255,255,255,0.8); padding: 4px 8px; border-radius: 4px; pointer-events: none; }
     </style>
 </head>
 <body>
+
+    <audio id="audioSW" src="audio/starwars-theme.mp3" loop></audio>
 
     <h1>Fotoentintados</h1>
 
@@ -81,10 +114,9 @@
         <button id="btnOscurecer" onclick="oscurecerActual()">Oscurecer</button>
     </div>
 
-    <div class="version-tag">v6.1 - Alei</div>
+    <div class="version-tag">v6.4 - Alei - SW Edition</div>
 
     <script>
-        // Lógica completa de micas, armazones y animación de oscurecimiento v6.0
         const modelos = {
             abbas: ["chinatown","fargo","persepolis"],
             agnes: ["chocochip","fargo"],
@@ -100,7 +132,8 @@
             billie: ["medianoche","limalimon","espresso","pitaya","pasita"],
             clark: ["grafito"],
             connie: ["volcan"],
-            dafna: ["cedro","olivo","nube","espresso","clavel"], "dafna titan": ["manhattan","collins"],
+            dafna: ["cedro","olivo","nube","espresso","clavel"],
+            "dafna titan": ["manhattan","collins"],
             daria: ["onix", "cereza"],
             desmond: ["caliza","altamar"],
             dwight: ["tinieblas","octagon","rayo"],
@@ -109,7 +142,8 @@
             fran: ["uva","cedro","olivo"],
             garcia: ["neptuno","grafito","aceituna","estela"],
             garwin: ["laton", "acero"],
-            glorp: ["sideral"], "glorp antimateria": ["estelar","orbita"],
+            glorp: ["sideral"],
+            "glorp antimateria": ["estelar","orbita"],
             godard: ["habana","hollywood","matinee","paradiso"],
             guillermo: ["supernova","medianoche","merengue"],
             jaime: ["onix","piedra"],
@@ -132,15 +166,15 @@
             pablo: ["dolores","cleri","olivia"],
             parks: ["laton","penique","bronce","plomo"],
             pedro: ["chocochip","las vegas","paris-texas"],
-            proximamente: ["sw"], 
+            starwars: ["Han Solo","Darth Vader","Chewie","Leia","Yoda","Skywalker","C-3PO","R2-D2","Obiwan"], 
             rivera: ["nogal","onix","aceituna","pasita","daiquiri","chocochip"],
             robin: ["laton","acero","plomo","bronce"],
             "robin caviar": ["osetra","beluga","esturion","caracol"],
             saramago: ["merengue","nogal"],
             sergioarmando: ["budapest","ayelen"],
-            testa: ["tortuga","onix","amate"],
-            tina: ["nogal","onix"],
-            truman: ["onix"], vilma: ["rayo"],
+            testa: ["tortuga","onix","amate"], tina: ["nogal","onix"],
+            truman: ["onix"],
+            vilma: ["rayo"],
             wong: ["hongkong","fargo"],
             yuri: ["guayaba","mojito","conga"],
             lucrecia: ["matcha","nogal","merengue"],
@@ -161,32 +195,54 @@
             rosarito:  {inicio:"#f3f2c7", final:"#4f2e29"},
             miramar:   {inicio:"#dfd3e7", final:"#434343"},
             azufre:    {inicio:"#ecdbb0", final:"#783f03"},
-            té:        {fijo:"#d0f3e2"}
+            té:        {fijo:"#d0f3e2"},
+            asteroid:  {desvanecido: {superior:"#E65C41", inferior:"#F9D29D"}},
+            nebulosa:  {desvanecido: {superior:"#005B94", inferior:"#D6E3F5"}},
+            estela:    {desvanecido: {superior:"#6B4F7B", inferior:"#dfd3e7"}} 
         };
 
         let micaSeleccionada = 'celestun';
         let animacionId = null;
         let botones = [];
 
-        function inicializarMicas() {
+        function inicializarMicas(modeloActual) {
             const container = document.getElementById("botonesMica");
-            Object.keys(coloresMica).forEach(nombre => {
-                const cont = document.createElement("div"); cont.className = "mica-boton-container";
-                const btn = document.createElement("div"); btn.className = "boton-mica";
-                btn.style.backgroundColor = coloresMica[nombre].inicio || coloresMica[nombre].fijo;
-                btn.onclick = () => seleccionarMica(nombre, btn);
-                botones.push(btn);
-                const label = document.createElement("span"); label.className = "mica-label";
-                label.textContent = nombre.charAt(0).toUpperCase() + nombre.slice(1);
-                cont.appendChild(btn); cont.appendChild(label); container.appendChild(cont);
-            });
+            container.innerHTML = ""; 
+            botones = [];
+
+            const esStarWars = (modeloActual === 'starwars');
+            const micasStandard = ['celestun', 'mermejita', 'caleta', 'rosarito', 'miramar', 'azufre', 'té'];
+            const micasStarWars = ['asteroid', 'nebulosa', 'estela'];
+
+            micasStandard.forEach(nombre => crearBotonMica(nombre, container));
+
+            if (esStarWars) {
+                const br = document.createElement("div");
+                br.className = "mica-sw-break";
+                container.appendChild(br);
+                micasStarWars.forEach(nombre => crearBotonMica(nombre, container));
+                seleccionarMica('asteroid', botones[7]); 
+            } else {
+                seleccionarMica('celestun', botones[0]);
+            }
         }
 
-        function aplicarEfectos(progreso) {
-            const mica = document.getElementById("mica");
-            const reflejo = document.getElementById("reflejo");
-            mica.style.opacity = 1 - (0.18 * progreso);
-            reflejo.style.opacity = (0.65 * progreso);
+        function crearBotonMica(nombre, container) {
+            const mica = coloresMica[nombre];
+            const cont = document.createElement("div"); cont.className = "mica-boton-container";
+            const btn = document.createElement("div"); btn.className = "boton-mica";
+            
+            if (mica.desvanecido) {
+                btn.style.background = `linear-gradient(180deg, ${mica.desvanecido.superior} 0%, ${mica.desvanecido.inferior} 100%)`;
+            } else {
+                btn.style.backgroundColor = mica.inicio || mica.fijo;
+            }
+
+            btn.onclick = () => seleccionarMica(nombre, btn);
+            botones.push(btn);
+            const label = document.createElement("span"); label.className = "mica-label";
+            label.textContent = nombre.charAt(0).toUpperCase() + nombre.slice(1);
+            cont.appendChild(btn); cont.appendChild(label); container.appendChild(cont);
         }
 
         function seleccionarMica(nombre, btn) {
@@ -194,14 +250,23 @@
             if(animacionId) cancelAnimationFrame(animacionId);
             botones.forEach(b => b.classList.remove("seleccionado"));
             btn.classList.add("seleccionado");
-            const color = coloresMica[nombre].inicio || coloresMica[nombre].fijo;
-            document.getElementById("mica").style.backgroundColor = color;
-            aplicarEfectos(0);
-            document.getElementById("btnOscurecer").disabled = (nombre === "té");
+
+            const mica = coloresMica[nombre];
+            const micaElement = document.getElementById("mica");
+
+            if (mica.desvanecido) {
+                micaElement.style.background = `linear-gradient(180deg, ${mica.desvanecido.superior} 0%, ${mica.desvanecido.inferior} 100%)`;
+                document.getElementById("btnOscurecer").disabled = true;
+            } else {
+                micaElement.style.background = mica.inicio || mica.fijo;
+                document.getElementById("btnOscurecer").disabled = (nombre === "té");
+            }
+            document.getElementById("reflejo").style.opacity = 0;
+            document.getElementById("mica").style.opacity = 1;
         }
 
         function oscurecerActual() {
-            if(micaSeleccionada === "té") return;
+            if(micaSeleccionada === "té" || coloresMica[micaSeleccionada].desvanecido) return;
             const inicio = hexToRgb(coloresMica[micaSeleccionada].inicio);
             const final = hexToRgb(coloresMica[micaSeleccionada].final);
             const duracion = 1500;
@@ -217,7 +282,8 @@
                 let b = Math.round(inicio.b + (final.b - inicio.b) * progress);
                 
                 document.getElementById("mica").style.backgroundColor = `rgb(${r},${g},${b})`;
-                aplicarEfectos(progress);
+                document.getElementById("mica").style.opacity = 1 - (0.18 * progress);
+                document.getElementById("reflejo").style.opacity = (0.65 * progress);
 
                 if (progress < 1) animacionId = requestAnimationFrame(step);
             }
@@ -244,12 +310,24 @@
         function actualizarColores() {
             const m = document.getElementById("modelo").value;
             const s = document.getElementById("colorArmazon");
+            const audio = document.getElementById("audioSW");
+            
             s.innerHTML = "";
             (modelos[m] || []).sort().forEach(c => {
                 const opt = document.createElement("option"); opt.value = c;
                 opt.textContent = c.charAt(0).toUpperCase() + c.slice(1);
                 s.appendChild(opt);
             });
+            
+            if (m === 'starwars') {
+                document.body.classList.add('starwars-background');
+                if (audio) audio.play().catch(() => console.log("Interacción requerida para audio"));
+            } else {
+                document.body.classList.remove('starwars-background');
+                if (audio) { audio.pause(); audio.currentTime = 0; }
+            }
+            
+            inicializarMicas(m);
             cambiarArmazon();
         }
 
@@ -259,9 +337,7 @@
             document.getElementById("armazon").src = "img/" + m + "-" + c + ".png";
         }
 
-        inicializarMicas();
         inicializarModelos();
-        seleccionarMica('celestun', botones[0]);
     </script>
 </body>
 </html>
