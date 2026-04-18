@@ -12,7 +12,7 @@
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             text-align: center; 
-            background-color: #fdfdfd;
+            background-color: #fdfdfd; 
             margin: 0; padding: 10px; color: #333;
             padding-bottom: 50px; position: relative; min-height: 100vh; box-sizing: border-box;
             transition: background-color 1.5s ease-in-out, color 0.5s ease;
@@ -51,7 +51,7 @@
 
         #mica { 
             position: absolute; 
-            top: 21%;
+            top: 21%; /* Posición ajustada */
             left: 12%; width: 76%; height: 70%; 
             z-index: 1; border-radius: 40px; 
             transition: background-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
@@ -93,6 +93,13 @@
         
         body.starwars-background .boton-mica.seleccionado { border-color: #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
 
+        @keyframes flash-white {
+            0% { filter: brightness(1); box-shadow: 0 0 0px #fff; }
+            20% { filter: brightness(2.5); box-shadow: 0 0 20px 10px #fff; }
+            100% { filter: brightness(1); box-shadow: 0 0 0px #fff; }
+        }
+        .destello-saber { animation: flash-white 0.5s ease-out; }
+
         .mica-boton-container { display: flex; flex-direction: column; align-items: center; margin: 10px; width: 65px; }
         .mica-label { font-size: 0.8em; margin-top: 8px; font-weight: 600; }
         
@@ -112,6 +119,7 @@
 <body>
 
     <audio id="audioSW" src="audio/starwars-theme.mp3" loop></audio>
+    <audio id="audioSaber" src="audio/lightsaber-on.mp3"></audio>
 
     <h1>Fotoentintados</h1>
 
@@ -133,7 +141,7 @@
         <button id="btnOscurecer" onclick="oscurecerActual()">Oscurecer</button>
     </div>
 
-    <div class="version-tag">V7.1 - Alei - SW Edition</div>
+    <div class="version-tag">V7.3 - Alei - SW Edition</div>
 
     <script>
         const modelos = {
@@ -216,7 +224,7 @@
             miramar:   {inicio:"#dfd3e7", final:"#434343"},
             azufre:    {inicio:"#ecdbb0", final:"#783f03"},
             té:        {fijo:"#d0f3e2"},
-            asteroide:  {baseColor:"#f8cfc4ff", shadowColor:"#f75946ff"},
+            asteroide: {baseColor:"#f8cfc4ff", shadowColor:"#f75946ff"},
             nebulosa:  {baseColor:"#dce1e5", shadowColor:"#0066a3ff"},
             estela:    {baseColor:"#e4c0da", shadowColor:"#182370ff"}
         };
@@ -269,7 +277,20 @@
             
             const mica = coloresMica[nombre];
             const micaElement = document.getElementById("mica");
-            
+            const modeloActual = document.getElementById("modelo").value;
+            const audioSaber = document.getElementById("audioSaber");
+
+            if (modeloActual === 'starwars' && (nombre === 'asteroide' || nombre === 'nebulosa' || nombre === 'estela')) {
+                if (audioSaber) {
+                    audioSaber.currentTime = 0;
+                    audioSaber.play().catch(() => {});
+                }
+                if (btn) {
+                    btn.classList.add("destello-saber");
+                    setTimeout(() => btn.classList.remove("destello-saber"), 500);
+                }
+            }
+
             if (mica.baseColor) {
                 micaElement.style.backgroundColor = mica.baseColor;
                 micaElement.style.boxShadow = `inset 0 100px 100px -50px ${mica.shadowColor}`;
