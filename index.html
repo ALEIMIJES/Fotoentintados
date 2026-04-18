@@ -33,8 +33,9 @@
         }
 
         #mica { 
-            position: absolute; top: 15%; left: 12%; width: 76%; height: 70%; 
+            position: absolute; top: 20%; left: 12%; width: 76%; height: 70%; 
             z-index: 1; border-radius: 40px; 
+            /* Regresamos a la transición limpia de la v6.4 pero optimizada */
             transition: background-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
             mix-blend-mode: multiply; opacity: 1;
         }
@@ -42,7 +43,7 @@
         #armazon { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; pointer-events: none; }
 
         #reflejo {
-            position: absolute; top: 15%; left: 12%; width: 76%; height: 70%; 
+            position: absolute; top: 20%; left: 12%; width: 76%; height: 70%; 
             z-index: 3; border-radius: 40px; pointer-events: none;
             background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%);
             opacity: 0; transition: opacity 0.5s ease;
@@ -160,7 +161,7 @@
             pablo: ["dolores","cleri","olivia"],
             parks: ["laton","penique","bronce","plomo"],
             pedro: ["chocochip","las vegas","paris-texas"],
-            starwars: ["han solo","darth vader","chewie","leia","yoda","skywalker","C-3PO","R2-D2","obiwan"], 
+            starwars: ["han solo","darth vader","chewie","leia","yoda","skywalker","C-3PO","R2-D2","obiwan","NO"], 
             rivera: ["nogal","onix","aceituna","pasita","daiquiri","chocochip"],
             robin: ["laton","acero","plomo","bronce"],
             "robin caviar": ["osetra","beluga","esturion","caracol"],
@@ -260,7 +261,7 @@
                 let r = Math.round(inicio.r + (final.r - inicio.r) * progress);
                 let g = Math.round(inicio.g + (final.g - inicio.g) * progress);
                 let b = Math.round(inicio.b + (final.b - inicio.b) * progress);
-
+                
                 document.getElementById("mica").style.backgroundColor = `rgb(${r},${g},${b})`;
                 document.getElementById("mica").style.opacity = 1 - (0.18 * progress);
                 document.getElementById("reflejo").style.opacity = (0.65 * progress);
