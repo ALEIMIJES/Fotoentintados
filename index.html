@@ -35,7 +35,8 @@
         #mica { 
             position: absolute; top: 15%; left: 12%; width: 76%; height: 70%; 
             z-index: 1; border-radius: 40px; 
-            transition: background-color 0.8s ease, box-shadow 0.8s ease;
+            /* Regresamos a la transición limpia de la v6.4 pero optimizada */
+            transition: background-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
             mix-blend-mode: multiply; opacity: 1;
         }
 
@@ -110,12 +111,13 @@
         <button id="btnOscurecer" onclick="oscurecerActual()">Oscurecer</button>
     </div>
 
-    <div class="version-tag">v6.7 - Alei - True Fluid Edition</div>
+    <div class="version-tag">v6.9 - Alei - SW Edition</div>
 
     <script>
         const modelos = {
             abbas: ["chinatown","fargo","persepolis"],
-            agnes: ["chocochip","fargo"], akira: ["guadalajara","habana","sansebastian","venecia"],
+            agnes: ["chocochip","fargo"],
+            akira: ["guadalajara","habana","sansebastian","venecia"],
             alfonso: ["tofu"],
             aldous: ["nogal","grafito","niquel"],
             angela: ["alpes","pirineo"],
@@ -128,8 +130,7 @@
             clark: ["grafito"],
             connie: ["volcan"],
             dafna: ["cedro","olivo","nube","espresso","clavel"],
-            "dafna titan": ["manhattan","collins"],
-            daria: ["onix", "cereza"],
+            "dafna titan": ["manhattan","collins"], daria: ["onix", "cereza"],
             desmond: ["caliza","altamar"],
             dwight: ["tinieblas","octagon","rayo"],
             esquivel: ["grafito","niquel","chocochip","clavel"],
@@ -137,7 +138,8 @@
             fran: ["uva","cedro","olivo"],
             garcia: ["neptuno","grafito","aceituna","estela"],
             garwin: ["laton", "acero"],
-            glorp: ["sideral"], "glorp antimateria": ["estelar","orbita"],
+            glorp: ["sideral"],
+            "glorp antimateria": ["estelar","orbita"],
             godard: ["habana","hollywood","matinee","paradiso"],
             guillermo: ["supernova","medianoche","merengue"],
             jaime: ["onix","piedra"],
@@ -145,14 +147,14 @@
             joyce: ["metamorfosis", "aurora"],
             laszlo: ["laton", "acero","bronce"],
             leon: ["grafito","amate","burbuja","aceituna"],
-            leone: ["berlin","cannes","rotterdam"], lina: ["sunset", "manhattan"],
+            leone: ["berlin","cannes","rotterdam"],
+            lina: ["sunset", "manhattan"],
             linda: ["plomo", "laton"],
             marcela: ["merengue","caoba"],
             "marcela reform": ["napolitano", "cacao"],
             maria: ["bronce", "plomo"],
             martin: ["onix","espresso","maple","maple burbuja"],
-            max: ["rayo","octagon"],
-            meryl: ["merengue","nogal"],
+            max: ["rayo","octagon"], meryl: ["merengue","nogal"],
             moleman: ["jupiter","sombra","onix","medusa"],
             molina: ["plomo", "laton"],
             "nadia IV": ["octagon"],
@@ -163,7 +165,8 @@
             rivera: ["nogal","onix","aceituna","pasita","daiquiri","chocochip"],
             robin: ["laton","acero","plomo","bronce"],
             "robin caviar": ["osetra","beluga","esturion","caracol"],
-            saramago: ["merengue","nogal"], sergioarmando: ["budapest","ayelen"],
+            saramago: ["merengue","nogal"],
+            sergioarmando: ["budapest","ayelen"],
             testa: ["tortuga","onix","amate"],
             tina: ["nogal","onix"],
             truman: ["onix"], vilma: ["rayo"],
@@ -172,8 +175,7 @@
             lucrecia: ["matcha","nogal","merengue"],
             yetta: ["brandy","americano","mordisco"],
             brooks: ["nogal"],
-            penelope: ["nogal"],
-            steven: ["nogal"],
+            penelope: ["nogal"], steven: ["nogal"],
             coen: ["nogal"],
             cortazar: ["melancolia","estela"],
             romero: ["nogal"],
@@ -188,7 +190,6 @@
             miramar:   {inicio:"#dfd3e7", final:"#434343"},
             azufre:    {inicio:"#ecdbb0", final:"#783f03"},
             té:        {fijo:"#d0f3e2"},
-
             asteroid:  {baseColor:"#F9D29D", shadowColor:"#E65C41"},
             nebulosa:  {baseColor:"#D6E3F5", shadowColor:"#005B94"},
             estela:    {baseColor:"#dfd3e7", shadowColor:"#6B4F7B"}
@@ -202,39 +203,26 @@
             const container = document.getElementById("botonesMica");
             container.innerHTML = ""; 
             botones = [];
-
             const esStarWars = (modeloActual === 'starwars');
             const micasStandard = ['celestun', 'mermejita', 'caleta', 'rosarito', 'miramar', 'azufre', 'té'];
             const micasStarWars = ['asteroid', 'nebulosa', 'estela'];
-
             micasStandard.forEach(nombre => crearBotonMica(nombre, container));
-
             if (esStarWars) {
-                const br = document.createElement("div");
-                br.className = "mica-sw-break";
-                container.appendChild(br);
+                const br = document.createElement("div"); br.className = "mica-sw-break"; container.appendChild(br);
                 micasStarWars.forEach(nombre => crearBotonMica(nombre, container));
                 seleccionarMica('asteroid', botones[7]); 
-            } else {
-                seleccionarMica('celestun', botones[0]);
-            }
+            } else { seleccionarMica('celestun', botones[0]); }
         }
 
         function crearBotonMica(nombre, container) {
             const mica = coloresMica[nombre];
             const cont = document.createElement("div"); cont.className = "mica-boton-container";
             const btn = document.createElement("div"); btn.className = "boton-mica";
-            
-            if (mica.baseColor) {
-                btn.style.background = `linear-gradient(180deg, ${mica.shadowColor} 0%, ${mica.baseColor} 100%)`;
-            } else {
-                btn.style.backgroundColor = mica.inicio || mica.fijo;
-            }
-
+            if (mica.baseColor) { btn.style.background = `linear-gradient(180deg, ${mica.shadowColor} 0%, ${mica.baseColor} 100%)`;
+            } else { btn.style.backgroundColor = mica.inicio || mica.fijo; }
             btn.onclick = () => seleccionarMica(nombre, btn);
             botones.push(btn);
-            const label = document.createElement("span"); label.className = "mica-label";
-            label.textContent = nombre.charAt(0).toUpperCase() + nombre.slice(1);
+            const label = document.createElement("span"); label.className = "mica-label"; label.textContent = nombre.charAt(0).toUpperCase() + nombre.slice(1);
             cont.appendChild(btn); cont.appendChild(label); container.appendChild(cont);
         }
 
@@ -243,10 +231,8 @@
             if(animacionId) cancelAnimationFrame(animacionId);
             botones.forEach(b => b.classList.remove("seleccionado"));
             btn.classList.add("seleccionado");
-
             const mica = coloresMica[nombre];
             const micaElement = document.getElementById("mica");
-
             if (mica.baseColor) {
                 micaElement.style.backgroundColor = mica.baseColor;
                 micaElement.style.boxShadow = `inset 0 100px 100px -50px ${mica.shadowColor}`;
@@ -257,14 +243,14 @@
                 document.getElementById("btnOscurecer").disabled = (nombre === "té");
             }
             document.getElementById("reflejo").style.opacity = 0;
-            document.getElementById("mica").style.opacity = 1;
+            micaElement.style.opacity = 1;
         }
 
         function oscurecerActual() {
             if(micaSeleccionada === "té" || coloresMica[micaSeleccionada].baseColor) return;
             const inicio = hexToRgb(coloresMica[micaSeleccionada].inicio);
             const final = hexToRgb(coloresMica[micaSeleccionada].final);
-            const duracion = 850;
+            const duracion = 800; // Rapidez de la v6.8
             let start = null;
 
             function step(timestamp) {
@@ -306,22 +292,19 @@
             const m = document.getElementById("modelo").value;
             const s = document.getElementById("colorArmazon");
             const audio = document.getElementById("audioSW");
-            
             s.innerHTML = "";
             (modelos[m] || []).sort().forEach(c => {
                 const opt = document.createElement("option"); opt.value = c;
                 opt.textContent = c.charAt(0).toUpperCase() + c.slice(1);
                 s.appendChild(opt);
             });
-            
             if (m === 'starwars') {
                 document.body.classList.add('starwars-background');
-                if (audio) audio.play().catch(() => console.log("Interacción requerida"));
+                if (audio) audio.play().catch(() => {});
             } else {
                 document.body.classList.remove('starwars-background');
                 if (audio) { audio.pause(); audio.currentTime = 0; }
             }
-            
             inicializarMicas(m);
             cambiarArmazon();
         }
