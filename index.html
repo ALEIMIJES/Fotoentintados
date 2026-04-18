@@ -8,11 +8,6 @@
     <link rel="icon" type="image/png" href="img/iconweb.png">
     <link rel="apple-touch-icon" href="img/iconweb.png">
     
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="theme-color" content="#fdfdfd">
-    
     <style>
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
@@ -39,8 +34,9 @@
 
         #mica { 
             position: absolute; top: 15%; left: 12%; width: 76%; height: 70%; 
-            z-index: 1; border-radius: 40px; transition: background 0.3s ease;
-            mix-blend-mode: multiply; opacity: 1; box-shadow: inset 0 8px 15px rgba(0,0,0,0.1);
+            z-index: 1; border-radius: 40px; 
+            transition: background-color 0.8s ease, box-shadow 0.8s ease;
+            mix-blend-mode: multiply; opacity: 1;
         }
 
         #armazon { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; pointer-events: none; }
@@ -66,7 +62,7 @@
         body.starwars-background select {
             background: rgba(0, 0, 0, 0.7);
             color: #fff;
-            border: 1px solid #ffd700; /* Un toque dorado estilo SW */
+            border: 1px solid #ffd700;
         }
 
         .boton-mica { width: 55px; height: 55px; border-radius: 50%; border: 3px solid #eee; cursor: pointer; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
@@ -114,13 +110,12 @@
         <button id="btnOscurecer" onclick="oscurecerActual()">Oscurecer</button>
     </div>
 
-    <div class="version-tag">v6.4 - Alei - SW Edition</div>
+    <div class="version-tag">v6.7 - Alei - True Fluid Edition</div>
 
     <script>
         const modelos = {
             abbas: ["chinatown","fargo","persepolis"],
-            agnes: ["chocochip","fargo"],
-            akira: ["guadalajara","habana","sansebastian","venecia"],
+            agnes: ["chocochip","fargo"], akira: ["guadalajara","habana","sansebastian","venecia"],
             alfonso: ["tofu"],
             aldous: ["nogal","grafito","niquel"],
             angela: ["alpes","pirineo"],
@@ -142,8 +137,7 @@
             fran: ["uva","cedro","olivo"],
             garcia: ["neptuno","grafito","aceituna","estela"],
             garwin: ["laton", "acero"],
-            glorp: ["sideral"],
-            "glorp antimateria": ["estelar","orbita"],
+            glorp: ["sideral"], "glorp antimateria": ["estelar","orbita"],
             godard: ["habana","hollywood","matinee","paradiso"],
             guillermo: ["supernova","medianoche","merengue"],
             jaime: ["onix","piedra"],
@@ -151,8 +145,7 @@
             joyce: ["metamorfosis", "aurora"],
             laszlo: ["laton", "acero","bronce"],
             leon: ["grafito","amate","burbuja","aceituna"],
-            leone: ["berlin","cannes","rotterdam"],
-            lina: ["sunset", "manhattan"],
+            leone: ["berlin","cannes","rotterdam"], lina: ["sunset", "manhattan"],
             linda: ["plomo", "laton"],
             marcela: ["merengue","caoba"],
             "marcela reform": ["napolitano", "cacao"],
@@ -162,7 +155,7 @@
             meryl: ["merengue","nogal"],
             moleman: ["jupiter","sombra","onix","medusa"],
             molina: ["plomo", "laton"],
-            nadiaiv: ["octagon"],
+            "nadia IV": ["octagon"],
             pablo: ["dolores","cleri","olivia"],
             parks: ["laton","penique","bronce","plomo"],
             pedro: ["chocochip","las vegas","paris-texas"],
@@ -170,11 +163,10 @@
             rivera: ["nogal","onix","aceituna","pasita","daiquiri","chocochip"],
             robin: ["laton","acero","plomo","bronce"],
             "robin caviar": ["osetra","beluga","esturion","caracol"],
-            saramago: ["merengue","nogal"],
-            sergioarmando: ["budapest","ayelen"],
-            testa: ["tortuga","onix","amate"], tina: ["nogal","onix"],
-            truman: ["onix"],
-            vilma: ["rayo"],
+            saramago: ["merengue","nogal"], sergioarmando: ["budapest","ayelen"],
+            testa: ["tortuga","onix","amate"],
+            tina: ["nogal","onix"],
+            truman: ["onix"], vilma: ["rayo"],
             wong: ["hongkong","fargo"],
             yuri: ["guayaba","mojito","conga"],
             lucrecia: ["matcha","nogal","merengue"],
@@ -196,9 +188,10 @@
             miramar:   {inicio:"#dfd3e7", final:"#434343"},
             azufre:    {inicio:"#ecdbb0", final:"#783f03"},
             té:        {fijo:"#d0f3e2"},
-            asteroid:  {desvanecido: {superior:"#E65C41", inferior:"#F9D29D"}},
-            nebulosa:  {desvanecido: {superior:"#005B94", inferior:"#D6E3F5"}},
-            estela:    {desvanecido: {superior:"#6B4F7B", inferior:"#dfd3e7"}} 
+
+            asteroid:  {baseColor:"#F9D29D", shadowColor:"#E65C41"},
+            nebulosa:  {baseColor:"#D6E3F5", shadowColor:"#005B94"},
+            estela:    {baseColor:"#dfd3e7", shadowColor:"#6B4F7B"}
         };
 
         let micaSeleccionada = 'celestun';
@@ -232,8 +225,8 @@
             const cont = document.createElement("div"); cont.className = "mica-boton-container";
             const btn = document.createElement("div"); btn.className = "boton-mica";
             
-            if (mica.desvanecido) {
-                btn.style.background = `linear-gradient(180deg, ${mica.desvanecido.superior} 0%, ${mica.desvanecido.inferior} 100%)`;
+            if (mica.baseColor) {
+                btn.style.background = `linear-gradient(180deg, ${mica.shadowColor} 0%, ${mica.baseColor} 100%)`;
             } else {
                 btn.style.backgroundColor = mica.inicio || mica.fijo;
             }
@@ -254,11 +247,13 @@
             const mica = coloresMica[nombre];
             const micaElement = document.getElementById("mica");
 
-            if (mica.desvanecido) {
-                micaElement.style.background = `linear-gradient(180deg, ${mica.desvanecido.superior} 0%, ${mica.desvanecido.inferior} 100%)`;
+            if (mica.baseColor) {
+                micaElement.style.backgroundColor = mica.baseColor;
+                micaElement.style.boxShadow = `inset 0 100px 100px -50px ${mica.shadowColor}`;
                 document.getElementById("btnOscurecer").disabled = true;
             } else {
-                micaElement.style.background = mica.inicio || mica.fijo;
+                micaElement.style.backgroundColor = mica.inicio || mica.fijo;
+                micaElement.style.boxShadow = `inset 0 8px 15px rgba(0,0,0,0.1)`;
                 document.getElementById("btnOscurecer").disabled = (nombre === "té");
             }
             document.getElementById("reflejo").style.opacity = 0;
@@ -266,10 +261,10 @@
         }
 
         function oscurecerActual() {
-            if(micaSeleccionada === "té" || coloresMica[micaSeleccionada].desvanecido) return;
+            if(micaSeleccionada === "té" || coloresMica[micaSeleccionada].baseColor) return;
             const inicio = hexToRgb(coloresMica[micaSeleccionada].inicio);
             const final = hexToRgb(coloresMica[micaSeleccionada].final);
-            const duracion = 1500;
+            const duracion = 850;
             let start = null;
 
             function step(timestamp) {
@@ -321,7 +316,7 @@
             
             if (m === 'starwars') {
                 document.body.classList.add('starwars-background');
-                if (audio) audio.play().catch(() => console.log("Interacción requerida para audio"));
+                if (audio) audio.play().catch(() => console.log("Interacción requerida"));
             } else {
                 document.body.classList.remove('starwars-background');
                 if (audio) { audio.pause(); audio.currentTime = 0; }
