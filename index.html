@@ -35,7 +35,6 @@
         #mica { 
             position: absolute; top: 15%; left: 12%; width: 76%; height: 70%; 
             z-index: 1; border-radius: 40px; 
-            /* Regresamos a la transición limpia de la v6.4 pero optimizada */
             transition: background-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
             mix-blend-mode: multiply; opacity: 1;
         }
@@ -111,7 +110,7 @@
         <button id="btnOscurecer" onclick="oscurecerActual()">Oscurecer</button>
     </div>
 
-    <div class="version-tag">v6.9 - Alei - SW Edition</div>
+    <div class="version-tag">v7.0 - Alei - SW Edition</div>
 
     <script>
         const modelos = {
@@ -246,7 +245,6 @@
             micaElement.style.opacity = 1;
         }
 
-        // --- SECCIÓN DE OSCURECIMIENTO (LOGICA v6.4 + VELOCIDAD v6.8) ---
         function oscurecerActual() {
             if(micaSeleccionada === "té" || coloresMica[micaSeleccionada].baseColor) return;
             const inicio = hexToRgb(coloresMica[micaSeleccionada].inicio);
@@ -262,8 +260,7 @@
                 let r = Math.round(inicio.r + (final.r - inicio.r) * progress);
                 let g = Math.round(inicio.g + (final.g - inicio.g) * progress);
                 let b = Math.round(inicio.b + (final.b - inicio.b) * progress);
-                
-                // Mantenemos la lógica de la v6.4 que tanto te gustó
+
                 document.getElementById("mica").style.backgroundColor = `rgb(${r},${g},${b})`;
                 document.getElementById("mica").style.opacity = 1 - (0.18 * progress);
                 document.getElementById("reflejo").style.opacity = (0.65 * progress);
