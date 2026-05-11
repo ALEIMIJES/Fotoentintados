@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fotoentintados</title>
+    <title>Fotoentintados - SW Edition</title>
     
     <link rel="icon" type="image/png" href="img/iconweb.png">
     <link rel="apple-touch-icon" href="img/iconweb.png">
@@ -31,14 +31,8 @@
             pointer-events: none;
         }
 
-        body.starwars-background {
-            background-color: #000;
-            color: #fff;
-        }
-
-        body.starwars-background::before {
-            opacity: 1;
-        }
+        body.starwars-background { background-color: #000; color: #fff; }
+        body.starwars-background::before { opacity: 1; }
 
         h1 { font-size: 1.5rem; margin-bottom: 10px; position: relative; }
 
@@ -51,10 +45,9 @@
 
         #mica { 
             position: absolute; 
-            top: 20%;
-            left: 12%; width: 76%; height: 70%; 
+            top: 20%; left: 12%; width: 76%; height: 70%; 
             z-index: 1; border-radius: 40px; 
-            transition: background-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
+            transition: all 0.4s ease;
             mix-blend-mode: multiply; opacity: 1;
         }
 
@@ -153,18 +146,22 @@
             angela: ["alpes","pirineo"],
             artigas: ["laton","mercurio","plomo"],
             barb: ["bronce"],
+            barragan: ["amate","cosmico","nube","espresso","clavel"],
             bernard: ["alpes","apalache","sierra"],
             bill: ["ballena","grafito"],
             "bill ventana": ["alcachofa","grafito"],
             billie: ["medianoche","limalimon","espresso","pitaya","pasita"],
+            brooks: ["nogal"],
             clark: ["grafito"],
+            coen: ["nogal"],
             connie: ["volcan"],
+            cortazar: ["melancolia","estela"],
             dafna: ["cedro","olivo","nube","espresso","clavel"],
-            barragan: ["amate","cosmico","nube","espresso","clavel"],
             "dafna titan": ["manhattan","collins"], 
             daria: ["onix", "cereza"],
             desmond: ["caliza","altamar"],
             dwight: ["tinieblas","octagon","rayo"],
+            egon: ["tinieblas","mistico","octagon"],
             esquivel: ["grafito","niquel","chocochip","clavel","comala"],
             "esquivel titan": ["martini","cosmopolitan"],
             fran: ["uva","cedro","olivo","tonala"],
@@ -182,6 +179,7 @@
             leone: ["berlin","cannes","rotterdam"],
             lina: ["sunset", "manhattan"],
             linda: ["plomo", "laton"],
+            lucrecia: ["matcha","nogal","merengue"],
             marcela: ["merengue","caoba"],
             "marcela reform": ["napolitano", "cacao"],
             maria: ["bronce", "plomo"],
@@ -194,27 +192,22 @@
             pablo: ["dolores","cleri","olivia"],
             parks: ["laton","penique","bronce","plomo"],
             pedro: ["chocochip","las vegas","paris-texas"],
-            starwars: ["han solo","darth vader","chewie","leia","yoda","skywalker","C-3PO","R2-D2","obiwan"], 
+            penelope: ["nogal"], 
             rivera: ["nogal","onix","aceituna","pasita","daiquiri","chocochip","la paz"],
             robin: ["laton","acero","plomo","bronce"],
             "robin caviar": ["osetra","beluga","esturion","caracol"],
+            romero: ["nogal"],
             saramago: ["merengue","nogal"],
             sergioarmando: ["budapest","ayelen"],
+            starwars: ["han solo","darth vader","chewie","leia","yoda","skywalker","C-3PO","R2-D2","obiwan"], 
+            steven: ["nogal"],
             testa: ["tortuga","onix","amate"],
             tina: ["nogal","onix"],
             truman: ["onix"], 
             vilma: ["rayo"],
             wong: ["hongkong","fargo"],
-            yuri: ["guayaba","mojito","conga"],
-            lucrecia: ["matcha","nogal","merengue"],
             yetta: ["brandy","americano","mordisco"],
-            brooks: ["nogal"],
-            penelope: ["nogal"], 
-            steven: ["nogal"],
-            coen: ["nogal"],
-            cortazar: ["melancolia","estela"],
-            romero: ["nogal"],
-            egon: ["tinieblas","mistico","octagon"]
+            yuri: ["guayaba","mojito","conga"]
         };
 
         const coloresMica = {
@@ -293,11 +286,11 @@
             }
 
             if (mica.baseColor) {
-                micaElement.style.backgroundColor = mica.baseColor;
-                micaElement.style.boxShadow = `inset 0 100px 100px -50px ${mica.shadowColor}`;
+                micaElement.style.background = `linear-gradient(180deg, ${mica.shadowColor} 0%, ${mica.baseColor} 100%)`;
+                micaElement.style.boxShadow = "none";
                 document.getElementById("btnOscurecer").disabled = true;
             } else {
-                micaElement.style.backgroundColor = mica.inicio || mica.fijo;
+                micaElement.style.background = mica.inicio || mica.fijo;
                 micaElement.style.boxShadow = `inset 0 8px 15px rgba(0,0,0,0.1)`;
                 document.getElementById("btnOscurecer").disabled = (nombre === "té");
             }
@@ -319,7 +312,7 @@
                 let r = Math.round(inicio.r + (final.r - inicio.r) * progress);
                 let g = Math.round(inicio.g + (final.g - inicio.g) * progress);
                 let b = Math.round(inicio.b + (final.b - inicio.b) * progress);
-                document.getElementById("mica").style.backgroundColor = `rgb(${r},${g},${b})`;
+                document.getElementById("mica").style.background = `rgb(${r},${g},${b})`;
                 document.getElementById("mica").style.opacity = 1 - (0.18 * progress);
                 document.getElementById("reflejo").style.opacity = (0.65 * progress);
                 if (progress < 1) animacionId = requestAnimationFrame(step);
