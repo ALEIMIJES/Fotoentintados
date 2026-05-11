@@ -19,6 +19,12 @@
             overflow-x: hidden;
         }
 
+        /* Optimización de carga: Precarga de imagen */
+        body::after {
+            content: url('img/background-starwars.png');
+            position: absolute; width: 0; height: 0; overflow: hidden; z-index: -10;
+        }
+
         body::before {
             content: "";
             position: fixed;
@@ -27,8 +33,9 @@
             background-size: cover;
             z-index: -1;
             opacity: 0;
-            transition: opacity 1.5s ease-in-out;
+            transition: opacity 1s ease-in-out;
             pointer-events: none;
+            will-change: opacity; /* Mejora rendimiento en iPad */
         }
 
         body.starwars-background { background-color: #000; color: #fff; }
@@ -47,7 +54,8 @@
             position: absolute; 
             top: 20%; left: 12%; width: 76%; height: 70%; 
             z-index: 1; border-radius: 40px; 
-            transition: all 0.4s ease;
+            /* Transición universal para background (sólido y degradado) */
+            transition: background 0.6s ease-in-out, box-shadow 0.4s ease, opacity 0.4s ease;
             mix-blend-mode: multiply; opacity: 1;
         }
 
@@ -134,7 +142,7 @@
         <button id="btnOscurecer" onclick="oscurecerActual()">Oscurecer</button>
     </div>
 
-    <div class="version-tag">V7.3 - Alei - SW Edition</div>
+    <div class="version-tag">V7.4 - Alei - SW Edition</div>
 
     <script>
         const modelos = {
@@ -254,7 +262,7 @@
             if (mica.baseColor) { 
                 btn.style.background = `linear-gradient(180deg, ${mica.shadowColor} 0%, ${mica.baseColor} 100%)`;
             } else { 
-                btn.style.backgroundColor = mica.inicio || mica.fijo; 
+                btn.style.background = mica.inicio || mica.fijo; 
             }
             
             btn.onclick = () => seleccionarMica(nombre, btn);
@@ -286,6 +294,7 @@
             }
 
             if (mica.baseColor) {
+                // Mejora: Uso de linear-gradient para transición suave
                 micaElement.style.background = `linear-gradient(180deg, ${mica.shadowColor} 0%, ${mica.baseColor} 100%)`;
                 micaElement.style.boxShadow = "none";
                 document.getElementById("btnOscurecer").disabled = true;
